@@ -41,7 +41,7 @@ import time
 
 HOME = pathlib.Path.home()
 DEFAULT_DB = HOME / ".local/share/SkynetRedBlack" / "icon-db.sqlite3"
-VERSION = "1.0.48"
+VERSION = "1.0.49"
 
 IMAGE_EXTS = {".svg", ".png", ".jpg", ".jpeg", ".xpm", ".svgz"}
 # Trees that are never icon locations / are huge and irrelevant. Pruned
