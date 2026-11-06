@@ -12,12 +12,12 @@
     "Id": "com.skynetredblack",
     "License": "MIT (code) / GPL-3.0 / LGPL-3.0 (icon artwork) \u2014 see LICENSE",
     "Name": "SkynetRedBlack",
-    "Version": "1.0.46",
+    "Version": "1.0.47",
     "Website": ""
   },
   "Keywords": "Desktop;Workspace;Appearance;Look and Feel;Cyberdyne;Skynet;Red;Black;Terminator;Konsole;Icons;",
   "X-Plasma-API": "6.0",
   "X-Plasma-APIVersion": "2",
   "X-Plasma-MainScript": "defaults",
-  "Version": "1.0.46"
+  "Version": "1.0.47"
 }

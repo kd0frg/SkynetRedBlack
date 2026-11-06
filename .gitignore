@@ -1,8 +1,9 @@
-# large component tarballs are built by install.sh --pack / manually,
-# and attached as GitHub Release assets - not committed as loose files
+# The release tarballs ARE the distribution (v1.0.47): tracked so a
+# fresh clone installs out of the box with ./install.sh (it extracts
+# the tarball whenever a checkout dir is missing). The icons/ live
+# theme dir (~50 MB slim / 180 MB fat) and cursors/ sources stay
+# untracked — their slim tarballs are what ship.
 icons/
 cursors/
-releases/*.tar.gz
 *.bak
-
 __pycache__/
