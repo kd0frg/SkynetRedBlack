@@ -36,8 +36,8 @@ with a bright red cursor.
 ## Quick install (whole shabang)
 
 ```bash
-git clone https://github.com/kd0frg/SkynetRedBlack/cyberdyne-skynet-red-black.git
-cd cyberdyne-skynet-red-black
+git clone https://github.com/kd0frg/SkynetRedBlack.git
+cd SkynetRedBlack
 ./install.sh
 ```
 
