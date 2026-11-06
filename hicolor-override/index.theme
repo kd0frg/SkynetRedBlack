@@ -1,0 +1,27 @@
+[Icon Theme]
+Name=hicolor
+Comment=User hicolor overrides (Cyberdyne DaVinci tint)
+Inherits=hicolor
+Directories=128x128/apps,48x48/apps,64x64/apps,scalable/apps
+
+[128x128/apps]
+Context=Applications
+Size=128
+Type=Fixed
+
+[48x48/apps]
+Context=Applications
+Size=48
+Type=Fixed
+
+[64x64/apps]
+Context=Applications
+Size=64
+Type=Fixed
+
+[scalable/apps]
+Context=Applications
+Size=48
+Type=Scalable
+MinSize=16
+MaxSize=512

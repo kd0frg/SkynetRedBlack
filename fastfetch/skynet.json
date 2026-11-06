@@ -1,0 +1,31 @@
+{
+    "logo": {
+        "type": "file",
+        "source": "$HOME/fastfetch/skynet.txt"
+    },
+    "modules": [
+        "title",
+        "separator",
+        "os",
+        "host",
+        "kernel",
+        "uptime",
+        "packages",
+        "shell",
+        "display",
+        "de",
+        "wm",
+        {"type": "custom", "format": "WM Theme: SkynetRedBlack"},
+        {"type": "custom", "format": "Theme: SkynetRedBlack"},
+        "icons",
+        {"type": "custom", "format": "Font: JetBrains Mono (10pt) [Qt], JetBrains Mono (10pt) [GTK2/3/4]"},
+        "cursor",
+        "terminal",
+        "terminalfont",
+        "cpu",
+        "gpu",
+        "memory",
+        "break",
+        "colors"
+    ]
+}

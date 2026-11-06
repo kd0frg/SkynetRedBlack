@@ -1,0 +1,23 @@
+{
+  "KPackageStructure": "Plasma/LookAndFeel",
+  "KPlugin": {
+    "Authors": [
+      {
+        "Email": "",
+        "Name": "Cole"
+      }
+    ],
+    "Category": "Global Themes (Plasma 6)",
+    "Description": "SkynetRedBlack: a red-on-black Cyberdyne/Skynet themed global theme for KDE Plasma 6. Bundles the SkynetRedBlack colour scheme, the SkynetRedBlack redscale icon theme, Tela red folders, SkynetRedBlack Konsole profile, Skynet circuit wallpaper, and the triforce fastfetch greeting.",
+    "Id": "com.skynetredblack",
+    "License": "MIT (code) / GPL-3.0 / LGPL-3.0 (icon artwork) \u2014 see LICENSE",
+    "Name": "SkynetRedBlack",
+    "Version": "1.0.46",
+    "Website": ""
+  },
+  "Keywords": "Desktop;Workspace;Appearance;Look and Feel;Cyberdyne;Skynet;Red;Black;Terminator;Konsole;Icons;",
+  "X-Plasma-API": "6.0",
+  "X-Plasma-APIVersion": "2",
+  "X-Plasma-MainScript": "defaults",
+  "Version": "1.0.46"
+}
