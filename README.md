@@ -198,3 +198,5 @@ for the authoritative wording. Summary:
 - v1.0.48: Author metadata — `KPlugin.Authors` set to ProjectAIvolution <kd0frg@gmail.com> (was empty email / "Cole"), so the look-and-feel package carries valid KDE Store submission metadata. `metadata.json` bumped to 1.0.48; look-and-feel tarball rebuilt + SHA256SUMS refreshed.
 
 - v1.0.49: KDE Store trim — `metadata.json` License shortened to `MIT / GPL-3.0 / LGPL-3.0 (see LICENSE)`, and the submission section above now documents the verified store checklist (spec-conformant package, authors, preview path, X-KPackage-Dependencies order). `metadata.json` bumped to 1.0.49; look-and-feel tarball rebuilt + SHA256SUMS refreshed.
+
+- v1.0.50: Real desktop screenshot as the package preview — `contents/previews/preview.png` replaced with the 1919x1077 desktop capture (was a 762x728 placeholder), so the KDE Store listing + Global Themes preview shows the actual theme. `metadata.json` bumped to 1.0.50; look-and-feel tarball rebuilt + SHA256SUMS refreshed.
