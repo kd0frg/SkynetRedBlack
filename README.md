@@ -66,12 +66,25 @@ In `releases/` (built by `install.sh --pack` or manually):
 - `SkynetRedBlack-cursor.tar.gz` — Breeze_Dark_Red cursor theme
 - `SkynetRedBlack-wallpaper.tar.gz` — wallpaper
 
-KDE Store submission order: upload the icon theme, colour scheme,
-Konsole, and wallpaper first, note their store IDs, then add them as
-`X-KPackage-Dependencies` (`kns://icons.knsrc/...`, etc.) to the
-global theme's `metadata.json` before uploading the global theme.
-Fill in the author name/email in `metadata.json` to match your
-KDE Store account before submitting.
+**Can it go on KDE Store? Yes** — upload is manual (store.kde.org →
+Publish). Status (verified against the Plasma look-and-feel package
+spec: `KPackageStructure: Plasma/LookAndFeel` in `metadata.json`,
+preview at `contents/previews/preview.png`):
+
+- ✅ `metadata.json`: Id, Name, Category, Description, Authors
+  (ProjectAIvolution <kd0frg@gmail.com>), Version, trimmed License
+  (`MIT / GPL-3.0 / LGPL-3.0 (see LICENSE)`), Keywords
+- ✅ Tarball structure: `com.skynetredblack/` root, installs via
+  `kpackagetool6 --type Plasma/LookAndFeel`
+- ⚠️ Preview is 762x728 — store shows fine, a 1920x1200 screenshot
+  looks better; replace `contents/previews/preview.png` if you capture one
+- ⚠️ `Website` empty in metadata (optional); wallpaper tarball is a
+  bare JPG — KDE Store wallpapers take the image directly, OK
+- Submission order: upload icon theme, colour scheme, Konsole and
+  wallpaper first, note their store IDs, then add
+  `"X-KPackage-Dependencies": ["kns://icons.knsrc/api.kde-look.org/<id>", …]`
+  to the global theme's `metadata.json` before uploading it (so the
+  global theme pulls its components in automatically).
 
 ## Requirements
 
@@ -179,3 +192,5 @@ for the authoritative wording. Summary:
 - v1.0.47: Release-ready packaging — the `releases/*.tar.gz` tarballs (27 MB total, icons slimmed to 21 MB in v1.0.46) are now **tracked in git** (`.gitignore` updated; only the `icons/` + `cursors/` source dirs stay untracked), so `git clone` + `./install.sh` works out of the box with no manual tarball download — `install.sh` already had a tarball fallback for every component. Added `releases/SHA256SUMS`. Verified: fresh clone contains all 6 tarballs, all extract cleanly, and `./install.sh --pack` rebuilds the slim icons tarball (21 MB) from the live theme. No GitHub remote is configured yet — if one is added, `git push --tags` + a Release with the 6 tarballs makes this KDE-Store/submission-ready. `metadata.json` bumped to 1.0.47; look-and-feel tarball rebuilt.
 
 - v1.0.48: Author metadata — `KPlugin.Authors` set to ProjectAIvolution <kd0frg@gmail.com> (was empty email / "Cole"), so the look-and-feel package carries valid KDE Store submission metadata. `metadata.json` bumped to 1.0.48; look-and-feel tarball rebuilt + SHA256SUMS refreshed.
+
+- v1.0.49: KDE Store trim — `metadata.json` License shortened to `MIT / GPL-3.0 / LGPL-3.0 (see LICENSE)`, and the submission section above now documents the verified store checklist (spec-conformant package, authors, preview path, X-KPackage-Dependencies order). `metadata.json` bumped to 1.0.49; look-and-feel tarball rebuilt + SHA256SUMS refreshed.
