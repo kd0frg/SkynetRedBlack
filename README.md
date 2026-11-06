@@ -6,6 +6,10 @@ wallpaper, and a triforce fastfetch greeting, all in one package.
 
 ![preview](look-and-feel/com.skynetredblack/contents/previews/preview.png)
 
+## Screenshots
+
+![Desktop](docs/screenshot-desktop.png)
+
 ## What's inside
 
 | Component | Source in this repo | Installs to |
