@@ -1,0 +1,10 @@
+[Unit]
+Description=Cyberdyne Skynet - retint new app icons dark red
+After=network.target
+# v1.0.45: retint only restarts the Plasma shell when icons
+# actually changed, so running this on a timer/watch trigger is
+# safe (no unasked-for shell restart when nothing changed).
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/cyberdyne-retint

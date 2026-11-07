@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Cyberdyne retint weekly
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=7d
+Persistent=true
+
+[Install]
+WantedBy=timers.target
