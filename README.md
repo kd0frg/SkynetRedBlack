@@ -84,15 +84,16 @@ preview at `contents/previews/preview.png`):
   (`MIT / GPL-3.0 / LGPL-3.0 (see LICENSE)`), Keywords
 - ✅ Tarball structure: `com.skynetredblack/` root, installs via
   `kpackagetool6 --type Plasma/LookAndFeel`
-- ⚠️ Preview is 762x728 — store shows fine, a 1920x1200 screenshot
-  looks better; replace `contents/previews/preview.png` if you capture one
-- ⚠️ `Website` empty in metadata (optional); wallpaper tarball is a
+- ✅ Preview is the real 1919x1077 desktop screenshot at
+  `contents/previews/preview.png`
+- ✅ `Website` set in metadata; wallpaper tarball is a
   bare JPG — KDE Store wallpapers take the image directly, OK
-- Submission order: upload icon theme, colour scheme, Konsole and
-  wallpaper first, note their store IDs, then add
-  `"X-KPackage-Dependencies": ["kns://icons.knsrc/api.kde-look.org/<id>", …]`
-  to the global theme's `metadata.json` before uploading it (so the
-  global theme pulls its components in automatically).
+- ✅ Dependencies wired (v1.0.51): icons 2381288, colour scheme
+  2381290, wallpaper 2381292, cursor 2381293 are listed in
+  `X-KPackage-Dependencies` in the global theme's `metadata.json`,
+  so it pulls its components in automatically. Konsole (2381291)
+  is a standalone listing — there is no Konsole KNewStuff type,
+  so it cannot be a dependency. Global theme itself: 2381294.
 
 ## Requirements
 
@@ -204,3 +205,5 @@ for the authoritative wording. Summary:
 - v1.0.49: KDE Store trim — `metadata.json` License shortened to `MIT / GPL-3.0 / LGPL-3.0 (see LICENSE)`, and the submission section above now documents the verified store checklist (spec-conformant package, authors, preview path, X-KPackage-Dependencies order). `metadata.json` bumped to 1.0.49; look-and-feel tarball rebuilt + SHA256SUMS refreshed.
 
 - v1.0.50: Real desktop screenshot as the package preview — `contents/previews/preview.png` replaced with the 1919x1077 desktop capture (was a 762x728 placeholder), so the KDE Store listing + Global Themes preview shows the actual theme. `metadata.json` bumped to 1.0.50; look-and-feel tarball rebuilt + SHA256SUMS refreshed.
+
+- v1.0.51: KDE Store dependencies wired — `X-KPackage-Dependencies` added to `metadata.json` with the live store IDs (icons 2381288, colour scheme 2381290, wallpaper 2381292, cursor 2381293), so installing the global theme pulls its components in automatically. Konsole (2381291) and the global theme itself (2381294) have no KNewStuff dependency type, so they are not listed. `metadata.json` bumped to 1.0.51; look-and-feel tarball rebuilt + SHA256SUMS refreshed.
