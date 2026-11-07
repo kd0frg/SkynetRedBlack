@@ -1,3 +1,7 @@
+<p align="center">
+  <a href="https://buymeacoffee.com/projectaivolution"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="I'm fueled by coffee — Buy Me a Coffee"></a>
+</p>
+
 # SkynetRedBlack
 
 A red-on-black Cyberdyne / Skynet themed **global theme for KDE Plasma 6** —
