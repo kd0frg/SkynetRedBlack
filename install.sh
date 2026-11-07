@@ -12,7 +12,7 @@ if [ "${1:-}" = "--pack" ]; then
   tar -czf releases/SkynetRedBlack-colorscheme.tar.gz -C colorschemes SkynetRedBlack.colors
   tar -czf releases/SkynetRedBlack-konsole.tar.gz -C konsole SkynetRedBlack.colorscheme SkynetRedBlack.profile
   tar -czf releases/SkynetRedBlack-cursor.tar.gz -C cursors Breeze_Dark_Red
-  tar -czf releases/SkynetRedBlack-wallpaper.tar.gz -C wallpaper skynet-wallpaper.jpg
+  tar -czf releases/SkynetRedBlack-wallpaper.tar.gz -C wallpaper skynet-wallpaper.jpg login.jpg
   tar -czf releases/SkynetRedBlack-sounds.tar.gz -C sounds Cyberdyne-System-Sounds
   if [ -d icons/SkynetRedBlack ]; then
     _icons_src="icons/SkynetRedBlack"
@@ -215,10 +215,44 @@ fi
 mkdir -p "$HOME/.local/share/wallpapers/SkynetRedBlack"
 if [ -f wallpaper/skynet-wallpaper.jpg ]; then
   cp wallpaper/skynet-wallpaper.jpg "$HOME/.local/share/wallpapers/SkynetRedBlack/"
+  # v1.0.56: login wallpaper alongside the desktop wallpaper
+  [ -f wallpaper/login.jpg ] && cp wallpaper/login.jpg "$HOME/.local/share/wallpapers/SkynetRedBlack/" || true
 elif [ -f releases/SkynetRedBlack-wallpaper.tar.gz ]; then
   tar -xzf releases/SkynetRedBlack-wallpaper.tar.gz -C "$HOME/.local/share/wallpapers/SkynetRedBlack/"
 else
   echo "ERROR: wallpaper not found" >&2; exit 1
+fi
+
+# --- v1.0.56: custom login screen (Plasma Login Manager) ---
+# PLM (the Plasma 6 successor to SDDM, shipped on CachyOS) does NOT
+# support custom QML login themes - its greeter is a fixed Breeze
+# shell whose only customisable parts are the wallpaper and the
+# colour scheme (System Settings -> Login Screen). So the custom
+# login screen here = the SkynetRedBlack login wallpaper
+# (wallpaper/login.jpg, 3840x2160) set as the PLM wallpaper, on
+# top of the already-red SkynetRedBlack colour scheme.
+# The plasmalogin user cannot read $HOME (mode 700), so the file
+# must live in a world-readable system location. That needs root:
+# best-effort sudo install + kwriteconfig as the plasmalogin user.
+# Without sudo, print the 3-click manual path instead of failing.
+echo "Login screen (Plasma Login Manager)..."
+if [ -f "$HOME/.local/share/wallpapers/SkynetRedBlack/login.jpg" ]; then
+  if sudo -n true 2>/dev/null; then
+    sudo mkdir -p /usr/share/wallpapers/SkynetRedBlack
+    sudo cp "$HOME/.local/share/wallpapers/SkynetRedBlack/login.jpg" /usr/share/wallpapers/SkynetRedBlack/login.jpg
+    sudo -u plasmalogin kwriteconfig6 --file /var/lib/plasmalogin/.config/kdeglobals \
+      --group Wallpaper --group org.kde.image --group General \
+      --key Image "file:///usr/share/wallpapers/SkynetRedBlack/login.jpg" 2>/dev/null || true
+    echo "login wallpaper installed to /usr/share/wallpapers/SkynetRedBlack/login.jpg and set for plasmalogin"
+  else
+    echo "NOTE: no passwordless sudo, so the login wallpaper was NOT auto-set."
+    echo "Do it manually: first copy it somewhere the login user can read:"
+    echo "  sudo mkdir -p /usr/share/wallpapers/SkynetRedBlack"
+    echo "  sudo cp ~/.local/share/wallpapers/SkynetRedBlack/login.jpg /usr/share/wallpapers/SkynetRedBlack/"
+    echo "then System Settings -> Login Screen -> Background -> pick"
+    echo "  /usr/share/wallpapers/SkynetRedBlack/login.jpg"
+    echo "Colour scheme is already SkynetRedBlack."
+  fi
 fi
 
 # sound theme (v1.0.54: Cyberdyne System Sounds, 42 Ogg Vorbis effects)

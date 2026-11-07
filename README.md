@@ -19,6 +19,7 @@ wallpaper, and a triforce fastfetch greeting, all in one package.
 | Konsole profile `SkynetRedBlack` | `konsole/SkynetRedBlack.profile` | `~/.local/share/konsole/` |
 | Cursor theme `Breeze_Dark_Red` | `cursors/Breeze_Dark_Red/` | `~/.icons/` |
 | Wallpaper | `wallpaper/skynet-wallpaper.jpg` | `~/.local/share/wallpapers/SkynetRedBlack/` |
+| Login wallpaper (3840×2160) | `wallpaper/login.jpg` (+ `login.png` source) | `~/.local/share/wallpapers/SkynetRedBlack/login.jpg`, then `/usr/share/wallpapers/SkynetRedBlack/login.jpg` for the login screen |
 | Sound theme — Cyberdyne System Sounds (42 sounds) | `sounds/Cyberdyne-System-Sounds/` | `~/.local/share/sounds/Cyberdyne-System-Sounds/` |
 | fastfetch triforce logo | `fastfetch/skynet.txt`, `skynet.json` | `~/fastfetch/` |
 | fish greeting fragment | `fish/config-fragment.fish` | `~/.config/fish/config.fish` (append) |
@@ -168,6 +169,37 @@ for the authoritative wording. Summary:
   (verbatim texts in `LICENSES/GPL-3.0.txt` and
   `LICENSES/LGPL-3.0.txt`). Check each upstream project's
   license before commercial use.
+
+## Login screen (Plasma Login Manager)
+
+Your login screen is **not** SDDM — CachyOS ships
+**Plasma Login Manager** (`plasmalogin`), which unlike SDDM does
+**not** support custom QML themes at all. Its greeter is a fixed
+Breeze shell; the only things you can customise are the **wallpaper**
+and the **colour scheme**. So the SkynetRedBlack login screen is:
+
+- the **login wallpaper** (`wallpaper/login.jpg`, resized to
+  3840×2160 from the `login.png` source), and
+- the **SkynetRedBlack colour scheme** (already applied by the
+  global theme).
+
+`install.sh` installs the login wallpaper to
+`~/.local/share/wallpapers/SkynetRedBlack/login.jpg`, and — since
+the login user can't read inside your home directory — (with
+passwordless sudo) also copies it to the world-readable
+`/usr/share/wallpapers/SkynetRedBlack/login.jpg` and sets it as the
+plasmalogin wallpaper with `kwriteconfig6`. Without passwordless
+sudo it prints the manual steps instead of failing:
+
+```bash
+sudo mkdir -p /usr/share/wallpapers/SkynetRedBlack
+sudo cp ~/.local/share/wallpapers/SkynetRedBlack/login.jpg /usr/share/wallpapers/SkynetRedBlack/
+# then: System Settings -> Login Screen -> Background -> pick
+# /usr/share/wallpapers/SkynetRedBlack/login.jpg
+```
+
+On SDDM-based systems the same `login.jpg` can be used as the
+background of any SDDM theme (`theme.conf`: `background=login.jpg`).
 
 ## Retint, detint and the auto scanner
 
