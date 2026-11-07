@@ -1,0 +1,8 @@
+# large component tarballs are built by install.sh --pack / manually,
+# and attached as GitHub Release assets - not committed as loose files
+icons/
+cursors/
+releases/*.tar.gz
+*.bak
+
+__pycache__/
