@@ -42,6 +42,24 @@ cd SkynetRedBlack
 ./install.sh
 ```
 
+`install.sh` asks first: **`Tint all icons red? [Y/n]`** — the
+default is **Y** (press Enter, or type `Y`/`y`/`yes` in any case).
+Answer `N`/`n`/`no` (also case-insensitive) to skip icon tinting
+entirely: the icon theme is not copied, the tint pipeline and the
+icon database build do not run. Everything else (colour scheme,
+wallpaper, cursor, Konsole, global theme) installs as normal, and
+the icon theme is set to `breeze` instead of pointing at a theme
+that was never installed. Retint/detint/auto are still installed,
+so tinting stays optional and can be done later:
+
+```bash
+cyberdyne-retint   # tints on demand - on its first run it creates the
+                   # SkynetRedBlack icon theme (incl. index.theme) and
+                   # builds the icon database itself, no installer needed
+```
+
+A non-interactive run (no input) takes the default, Y.
+
 `install.sh` copies every component to its correct location, rebuilds
 the icon cache, sets the wallpaper, installs the fish greeting, and
 installs the global theme with `kpackagetool6`. Then log out/in (or
@@ -170,6 +188,14 @@ the start-menu app list against the snapshot and only tints
 new/changed apps; the DB is refreshed at the end of the run. No DB
 means a full audit once, then the DB is built for next time.
 
+**First run without the installer:** if `install.sh` was answered
+`N` at the tint prompt (or the DB/theme were deleted), retint
+bootstraps itself — it creates the `SkynetRedBlack` icon theme
+(including `index.theme`) if it doesn't exist, and the end-of-run
+DB refresh builds the icon database when it's missing
+(`icon-db.py update` falls back to a full build). So
+`cyberdyne-retint` alone is enough to start tinting from scratch.
+
 ### Detint — how to use, and what it does
 
 Tinting is lossy: the clone of an icon stored in this theme does not
@@ -240,6 +266,8 @@ built in — enable/disable is the control, and the weekly timer is
 the only clock involved.
 
 ## Update log
+- v1.0.53: Optional tinting at install time + standalone first-run retint — `install.sh` now asks first, "Tint all icons red? [Y/n]" (default Y, case-insensitive Y/yes/N/no, non-interactive runs default to Y); answering N skips the icon theme copy, the whole tint pipeline and the icon-db build, leaves the icon theme set to `breeze` when no SkynetRedBlack theme exists, but still installs retint/detint/auto so tinting stays optional. Retint now bootstraps itself on a first run: it creates the SkynetRedBlack icon theme (incl. `index.theme`, inherits Tela-red-dark/breeze/hicolor) if missing, and its end-of-run DB refresh builds the icon database when none exists (`icon-db.py update` falls back to a full `build` — verified: 705,456 icons / 251 apps built standalone), so `cyberdyne-retint` alone starts tinting from scratch with no installer run. `metadata.json` bumped to 1.0.53; look-and-feel tarball rebuilt + SHA256SUMS refreshed.
+
 - v1.0.52: Detint/uninstaller + auto toggle — new `scripts/detint-remove.py` (installed as `cyberdyne-detint`) is the reverse of retint and runs like it: a bare run detints every tinted icon in all contexts, `--apps-only` detints just apps, `--dry-run` previews, `--no-shell-restart` never bounces the shell; because tinting is lossy it deletes the tinted red copies so the loader falls back to the original Breeze/hicolor icons, rebuilds the cache, and restarts plasmashell only on change. `--total` is the total uninstall: theme directory, icon/app database, installed retint/detint/auto scripts and systemd units all removed, kdeglobals icon theme set back to `breeze` (colour scheme/wallpaper/cursor/Konsole untouched). New `scripts/auto-retint.py` (installed as `cyberdyne-auto`) switches the auto scanner (weekly `cyberdyne-retint.timer` + instant `cyberdyne-retint.path` watcher) on/off with `enable`/`disable`/`status`, and the shell restart independently with `shell-restart enable|disable|status` (plain file `~/.config/SkynetRedBlack/shell-restart`, read by retint + detint) — no date/time scheduling, enable/disable only. `install.sh` now installs detint/auto alongside retint. New "Retint, detint and the auto scanner" README section documents all three commands. `metadata.json` bumped to 1.0.52; look-and-feel tarball rebuilt + SHA256SUMS refreshed.
 
 - v1.0.51: KDE Store dependencies wired — `X-KPackage-Dependencies` added to `metadata.json` with the live store IDs (icons 2381288, colour scheme 2381290, wallpaper 2381292, cursor 2381293), so installing the global theme pulls its components in automatically. Konsole (2381291) and the global theme itself (2381294) have no KNewStuff dependency type, so they are not listed. `metadata.json` bumped to 1.0.51; look-and-feel tarball rebuilt + SHA256SUMS refreshed.

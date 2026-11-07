@@ -40,6 +40,36 @@ STD_DIRS=["16/apps","22/apps","24/apps","32/apps","48/apps","64/apps","128/apps"
 FORCE="--force" in sys.argv
 BRIGHT="--bright" in sys.argv
 
+def ensure_index_theme():
+    """v1.0.53: first-run bootstrap. If install.sh was run with the
+    tint prompt answered N, the SkynetRedBlack icon theme was never
+    installed - so retint must create it (incl. index.theme) itself
+    the first time it runs, or the loader would never find the icons
+    it writes. An existing index.theme is never touched (the
+    pipeline scripts complete/improve it as before)."""
+    idx = OUT / "index.theme"
+    if idx.exists():
+        return
+    OUT.mkdir(parents=True, exist_ok=True)
+    dirs = [d for d in STD_DIRS if d != "scalable/apps"] + ["scalable/apps"]
+    lines = ["[Icon Theme]",
+             "Name=SkynetRedBlack",
+             "Comment=Redscale tinted app icons + bright-red symbolic system icons",
+             "Inherits=Tela-red-dark,breeze,hicolor",
+             "Directories=" + ",".join(dirs)]
+    for d in dirs:
+        size = d.split("/")[0]
+        if size == "scalable":
+            lines += ["", f"[{d}]", "Context=Applications", "Size=48",
+                      "Type=Scalable", "MinSize=16", "MaxSize=512"]
+        else:
+            lines += ["", f"[{d}]", "Context=Applications",
+                      f"Size={size}", "Type=Fixed"]
+    idx.write_text("\n".join(lines) + "\n")
+    print(f"created {idx} (first retint run - theme was not installed)")
+
+ensure_index_theme()
+
 # Widget icon name patterns — Plasma looks up these names for:
 #   - Panel applets (system tray, clock, task manager, etc.)
 #   - Desktop icons (via FolderItemDelegate)
@@ -376,7 +406,11 @@ def run_pipeline():
 def refresh_db():
     """Rebuild the install-time snapshot after a retint, so the NEXT
     retint diffs against the new state. Best-effort: a missing
-    icon-db.py must never fail a retint that already did its work."""
+    icon-db.py must never fail a retint that already did its work.
+    v1.0.53: this is also the first-run DB build - if the installer
+    was run with tinting skipped (N) there is no DB yet, and
+    icon-db.py `update` falls back to a full `build` when the DB
+    file is missing, so a standalone first retint creates it."""
     if SKIP_DB:
         return
     sdir = _scripts_dir()

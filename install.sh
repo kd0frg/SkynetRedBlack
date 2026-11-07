@@ -38,6 +38,30 @@ if [ "${1:-}" = "--pack" ]; then
   exit 0
 fi
 
+# --- v1.0.53: ask FIRST whether to tint icons at all ---
+# Default is Y. Answers are case-insensitive: Y/yes/Enter = yes,
+# N/no = skip icon tinting entirely (no icon theme copy, no tint
+# pipeline, no icon-db - retint/detint/auto are still installed at
+# the end, and retint builds the theme + database itself on its
+# first run if the user wants tinting later).
+TINT_ICONS="Y"
+printf 'Tint all icons red? [Y/n] '
+if IFS= read -r _tint_reply; then
+  case "$(printf '%s' "$_tint_reply" | tr '[:upper:]' '[:lower:]')" in
+    n|no) TINT_ICONS="N" ;;
+  esac
+fi
+unset _tint_reply
+if [ "$TINT_ICONS" = "Y" ]; then
+  echo "Icon tinting: YES"
+else
+  echo "Icon tinting: NO - skipping the icon theme and tint pipeline."
+  echo "You can tint later anytime with: cyberdyne-retint"
+fi
+
+# v1.0.53: the whole icon block below is skipped when tinting is off.
+if [ "$TINT_ICONS" = "Y" ]; then
+
 # icons (from icons/ dir in a full checkout, or the release tarball)
 # v1.0.29: stage to a temp dir and copy IN PLACE - never rm -rf the live
 # theme dir. Deleting it made running apps (Dolphin, Plasma) briefly lose
@@ -149,6 +173,12 @@ fi
 echo "[10/10] Building icon database..."
 if [ -f scripts/icon-db.py ]; then
   python3 scripts/icon-db.py build || true
+fi
+else
+  echo "Skipped icon theme install + tint pipeline (answered N)."
+  echo "Retint is still installed below; run 'cyberdyne-retint' any time"
+  echo "to tint later - it creates the icon theme and its database on"
+  echo "its first run, no installer needed."
 fi
 
 # cursor theme (Breeze_Dark_Red - bundled; see Credits in README for attribution)
@@ -318,6 +348,26 @@ if f.exists():
         t += "\n[Icons]\nTheme=SkynetRedBlack\n"
     f.write_text(t)
 PYEOF
+
+# v1.0.53: tinting skipped (N) + no SkynetRedBlack icon theme was
+# installed - don't leave Dolphin/kdeglobals pointing at a theme
+# that doesn't exist. Point them back at breeze instead. (If an old
+# theme dir is still there from a previous install, leave the
+# setting alone - `cyberdyne-detint --total` removes it.)
+if [ "$TINT_ICONS" != "Y" ] && [ ! -d "$HOME/.local/share/icons/SkynetRedBlack" ]; then
+python3 - << 'PYEOF'
+import pathlib, re
+home = pathlib.Path.home()
+for name in ["kdeglobals", "dolphinrc"]:
+    p = home / ".config" / name
+    if not p.exists():
+        continue
+    t = p.read_text()
+    if "Theme=SkynetRedBlack" in t:
+        p.write_text(t.replace("Theme=SkynetRedBlack", "Theme=breeze"))
+        print(f"{name}: icon theme set to breeze (tinting skipped)")
+PYEOF
+fi
 
 # Disabled icon effect (v1.0.20): KIconEffect defaults every group's Disabled
 # state to grey (togray). KDE reads the effect per-app from each app's own rc
