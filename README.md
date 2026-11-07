@@ -23,6 +23,9 @@ wallpaper, and a triforce fastfetch greeting, all in one package.
 | fish greeting fragment | `fish/config-fragment.fish` | `~/.config/fish/config.fish` (append) |
 | Panel/desktop layout (optional) | `extras/layouts/org.kde.plasma.desktop-layout.js` | `look-and-feel/.../contents/layouts/` (already included) |
 | Desktop containment override (red labels) | `plasmoids/org.kde.desktopcontainment/` | `~/.local/share/plasma/plasmoids/` |
+| Retint (tint new app icons red) | `scripts/retint-new-icons.py` | `~/.local/bin/cyberdyne-retint` (+ icon helpers) |
+| Detint / uninstall the tint | `scripts/detint-remove.py` | `~/.local/bin/cyberdyne-detint` |
+| Auto-scan + shell-restart toggle | `scripts/auto-retint.py` | `~/.local/bin/cyberdyne-auto` |
 
 The icon theme is a redscale tint of the user's installed app icons
 (luminance → muted red, symbolic/system icons → bright red) plus
@@ -140,7 +143,105 @@ for the authoritative wording. Summary:
   `LICENSES/LGPL-3.0.txt`). Check each upstream project's
   license before commercial use.
 
+## Retint, detint and the auto scanner
+
+A global theme is a static package — it cannot tint icons for apps
+that don't exist yet. SkynetRedBlack ships three commands for that,
+installed to `~/.local/bin` by `install.sh`:
+
+| Command | What it does |
+|---|---|
+| `cyberdyne-retint` | Tint new/changed app icons (and every other icon context) red — the **full pipeline**: titlebar minis, Breeze widgets, tray, preferences, copy icons, folder index, DaVinci, system-wide scan. Restarts the Plasma shell only if icons actually changed. |
+| `cyberdyne-detint` | **Reverse of retint**: removes the red tint from every icon (see below). |
+| `cyberdyne-auto` | Turn the auto scanner and/or the shell restart on and off (see below). |
+
+### Retint — how to use
+
+```bash
+cyberdyne-retint            # full pipeline (recommended after installing an app)
+cyberdyne-retint --apps-only # app Icon= names only, skip the rest of the pipeline
+cyberdyne-retint --force     # re-tint even icons that already exist in the theme
+cyberdyne-retint --bright    # tint everything bright red #ff0000 (widget retint)
+cyberdyne-retint --skip-db   # ignore/skip the icon-db diff + refresh
+```
+
+With an icon database present (built by `install.sh`), retint diffs
+the start-menu app list against the snapshot and only tints
+new/changed apps; the DB is refreshed at the end of the run. No DB
+means a full audit once, then the DB is built for next time.
+
+### Detint — how to use, and what it does
+
+Tinting is lossy: the clone of an icon stored in this theme does not
+keep its original colours, so detint does **not** try to un-tint
+pixels. Instead it **deletes the tinted red copies** from
+`~/.local/share/icons/SkynetRedBlack`, and the icon loader falls back
+through the theme's inheritance (`Tela-red-dark`/`Breeze`/`hicolor`)
+to the original, untinted icons — exactly the pre-tint look. The
+icon cache is rebuilt and the Plasma shell is restarted only if
+anything actually changed (and only if shell-restart is enabled).
+
+```bash
+cyberdyne-detint                     # full detint: every tinted icon, all contexts
+cyberdyne-detint --apps-only         # detint the apps context only, leave the rest
+cyberdyne-detint --dry-run           # show what would be removed, change nothing
+cyberdyne-detint --no-shell-restart  # detint, but never restart plasmashell
+```
+
+**Total uninstall** (`--total`) goes further: after detinting it also
+removes the whole `SkynetRedBlack` icon theme directory, the icon/app
+database (`~/.local/share/SkynetRedBlack/`), the installed
+retint/detint/auto scripts in `~/.local/bin`, and the systemd
+auto-scan units, and switches the active icon theme in
+`~/.config/kdeglobals` back to `breeze` if it was `SkynetRedBlack`.
+Colour scheme, wallpaper, cursor and Konsole files are **not**
+touched — this is the icon/retint uninstaller.
+
+```bash
+cyberdyne-detint --total             # total uninstall of icons + retint system
+cyberdyne-detint --total --dry-run   # preview a total uninstall first
+```
+
+### Auto scanner + shell restart — enable / disable
+
+The auto scanner is two systemd user units that run retint for you:
+
+- `cyberdyne-retint.path` — an inotify watcher that runs retint
+  **instantly** whenever an app is installed/removed (a `.desktop`
+  file appears/changes in the applications dirs). Zero daemon
+  footprint, no polling.
+- `cyberdyne-retint.timer` — a **weekly** safety-net run (5 minutes
+  after boot, then every 7 days) for icon changes that don't touch
+  those dirs.
+
+`install.sh --with-auto-retint` enables both; use `cyberdyne-auto`
+to change it later:
+
+```bash
+cyberdyne-auto enable                  # scanner ON  (timer + path watcher)
+cyberdyne-auto disable                 # scanner OFF (units disabled + stopped)
+cyberdyne-auto status                  # show scanner + shell-restart state
+```
+
+Retint/detint restart the Plasma shell after a run, but only when
+icons actually changed. If you never want a run to bounce your shell,
+turn the restart off — independent of the scanner:
+
+```bash
+cyberdyne-auto shell-restart disable   # retint/detint never restart plasmashell
+cyberdyne-auto shell-restart enable    # restore the restart (the default)
+cyberdyne-auto shell-restart status    # show the current setting
+```
+
+The setting is a plain file,
+`~/.config/SkynetRedBlack/shell-restart` (`enabled`/`disabled`),
+read by both retint and detint. There is no date/time scheduling
+built in — enable/disable is the control, and the weekly timer is
+the only clock involved.
+
 ## Update log
+- v1.0.52: Detint/uninstaller + auto toggle — new `scripts/detint-remove.py` (installed as `cyberdyne-detint`) is the reverse of retint and runs like it: a bare run detints every tinted icon in all contexts, `--apps-only` detints just apps, `--dry-run` previews, `--no-shell-restart` never bounces the shell; because tinting is lossy it deletes the tinted red copies so the loader falls back to the original Breeze/hicolor icons, rebuilds the cache, and restarts plasmashell only on change. `--total` is the total uninstall: theme directory, icon/app database, installed retint/detint/auto scripts and systemd units all removed, kdeglobals icon theme set back to `breeze` (colour scheme/wallpaper/cursor/Konsole untouched). New `scripts/auto-retint.py` (installed as `cyberdyne-auto`) switches the auto scanner (weekly `cyberdyne-retint.timer` + instant `cyberdyne-retint.path` watcher) on/off with `enable`/`disable`/`status`, and the shell restart independently with `shell-restart enable|disable|status` (plain file `~/.config/SkynetRedBlack/shell-restart`, read by retint + detint) — no date/time scheduling, enable/disable only. `install.sh` now installs detint/auto alongside retint. New "Retint, detint and the auto scanner" README section documents all three commands. `metadata.json` bumped to 1.0.52; look-and-feel tarball rebuilt + SHA256SUMS refreshed.
+
 - v1.0.51: KDE Store dependencies wired — `X-KPackage-Dependencies` added to `metadata.json` with the live store IDs (icons 2381288, colour scheme 2381290, wallpaper 2381292, cursor 2381293), so installing the global theme pulls its components in automatically. Konsole (2381291) and the global theme itself (2381294) have no KNewStuff dependency type, so they are not listed. `metadata.json` bumped to 1.0.51; look-and-feel tarball rebuilt + SHA256SUMS refreshed.
 
 - v1.0.50: Real desktop screenshot as the package preview — `contents/previews/preview.png` replaced with the 1919x1077 desktop capture (was a 762x728 placeholder), so the KDE Store listing + Global Themes preview shows the actual theme. `metadata.json` bumped to 1.0.50; look-and-feel tarball rebuilt + SHA256SUMS refreshed.

@@ -352,10 +352,24 @@ def run_pipeline():
     # icons. The old code restarted plasmashell on every run — via the
     # weekly systemd timer that means an unasked-for shell restart
     # (lost widget state/clipboard) even when nothing changed.
+    # v1.0.52: the restart can be switched off entirely with
+    # `cyberdyne-auto shell-restart disable` (writes "disabled" to
+    # ~/.config/SkynetRedBlack/shell-restart). Default is enabled.
+    shell_off = False
+    try:
+        shell_off = (HOME / ".config/SkynetRedBlack/shell-restart"
+                     ).read_text().strip().lower() == "disabled"
+    except OSError:
+        pass
     if _tinted_apps or _theme_changed_since(t0):
-        subprocess.run(["systemctl","--user","restart","plasma-plasmashell.service"],
-                       capture_output=True)
-        print("done - Plasma shell restarted; running apps need a restart to pick up new mini icons")
+        if shell_off:
+            print("done - icons changed; Plasma shell left running "
+                  "(shell-restart disabled - enable it with "
+                  "'cyberdyne-auto shell-restart enable')")
+        else:
+            subprocess.run(["systemctl","--user","restart","plasma-plasmashell.service"],
+                           capture_output=True)
+            print("done - Plasma shell restarted; running apps need a restart to pick up new mini icons")
     else:
         print("done - no new icons; Plasma shell left running")
 

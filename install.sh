@@ -374,12 +374,20 @@ cp scripts/retint-new-icons.py "$HOME/.local/bin/cyberdyne-retint" 2>/dev/null |
 chmod +x "$HOME/.local/bin/cyberdyne-retint"
 for _s in fix-mini-icons.py tint-breeze.py fix-tray-icons.py normalize-preferences.py \
           fix-copy-icon.py fix-folder-index.py fix-davinci-icon.py scan-all-icons.py \
+          detint-remove.py auto-retint.py \
           icon-db.py set-brave-system-titlebar.py redtint.py; do
   # v1.0.45: redtint.py is the shared library the tinters import —
   # install it alongside them or the installed copies lose the fast path.
+  # v1.0.52: detint-remove.py (cyberdyne-detint) + auto-retint.py
+  # (cyberdyne-auto) ship alongside retint for the same reason.
   cp "scripts/$_s" "$HOME/.local/bin/$_s" 2>/dev/null || true
   chmod +x "$HOME/.local/bin/$_s" 2>/dev/null || true
 done
+# v1.0.52: detint + auto-toggle command names, exactly like cyberdyne-retint.
+cp scripts/detint-remove.py "$HOME/.local/bin/cyberdyne-detint" 2>/dev/null || true
+chmod +x "$HOME/.local/bin/cyberdyne-detint" 2>/dev/null || true
+cp scripts/auto-retint.py "$HOME/.local/bin/cyberdyne-auto" 2>/dev/null || true
+chmod +x "$HOME/.local/bin/cyberdyne-auto" 2>/dev/null || true
 if [ "${1:-}" = "--with-auto-retint" ]; then
   mkdir -p "$HOME/.config/systemd/user"
   cp systemd/cyberdyne-retint.service systemd/cyberdyne-retint.timer systemd/cyberdyne-retint.path "$HOME/.config/systemd/user/"
