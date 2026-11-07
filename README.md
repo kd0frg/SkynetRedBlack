@@ -113,8 +113,10 @@ preview at `contents/previews/preview.png`):
   2381290, wallpaper 2381292, cursor 2381293 are listed in
   `X-KPackage-Dependencies` in the global theme's `metadata.json`,
   so it pulls its components in automatically. Konsole (2381291)
-  is a standalone listing — there is no Konsole KNewStuff type,
-  so it cannot be a dependency. Global theme itself: 2381294.
+  and Cyberdyne System Sounds (2381359) are standalone listings —
+  there is no Konsole or sound-theme KNewStuff type (no
+  `sounds.knsrc` exists), so neither can be a dependency; sounds
+  must be installed separately. Global theme itself: 2381294.
 
 ## Requirements
 
