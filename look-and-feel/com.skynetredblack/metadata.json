@@ -12,14 +12,14 @@
     "Id": "com.skynetredblack",
     "License": "MIT / GPL-3.0 / LGPL-3.0 (see LICENSE)",
     "Name": "SkynetRedBlack",
-    "Version": "1.0.53",
+    "Version": "1.0.54",
     "Website": "https://github.com/kd0frg/SkynetRedBlack/"
   },
   "Keywords": "Desktop;Workspace;Appearance;Look and Feel;Cyberdyne;Skynet;Red;Black;Terminator;Konsole;Icons;",
   "X-Plasma-API": "6.0",
   "X-Plasma-APIVersion": "2",
   "X-Plasma-MainScript": "defaults",
-  "Version": "1.0.53",
+  "Version": "1.0.54",
   "X-KPackage-Dependencies": [
     "kns://icons.knsrc/api.kde-look.org/2381288",
     "kns://colorschemes.knsrc/api.kde-look.org/2381290",

@@ -10,6 +10,9 @@ accentColorFromWallpaper=false
 [kdeglobals][Icons]
 Theme=SkynetRedBlack
 
+[kdeglobals][Sounds]
+Theme=Cyberdyne-System-Sounds
+
 [kdeglobals][DesktopIcons]
 DisabledEffect=colorize
 DisabledValue=0.7

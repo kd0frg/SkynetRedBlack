@@ -1,0 +1,8 @@
+[Sound Theme]
+Name=Cyberdyne System Sounds
+Comment=Cyberdyne Systems / Skynet themed sound effects for KDE Plasma 6 (42 sounds)
+Directories=stereo
+Example=desktop-login
+
+[stereo]
+OutputProfile=stereo

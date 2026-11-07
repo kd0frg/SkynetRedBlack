@@ -13,6 +13,7 @@ if [ "${1:-}" = "--pack" ]; then
   tar -czf releases/SkynetRedBlack-konsole.tar.gz -C konsole SkynetRedBlack.colorscheme SkynetRedBlack.profile
   tar -czf releases/SkynetRedBlack-cursor.tar.gz -C cursors Breeze_Dark_Red
   tar -czf releases/SkynetRedBlack-wallpaper.tar.gz -C wallpaper skynet-wallpaper.jpg
+  tar -czf releases/SkynetRedBlack-sounds.tar.gz -C sounds Cyberdyne-System-Sounds
   if [ -d icons/SkynetRedBlack ]; then
     _icons_src="icons/SkynetRedBlack"
   else
@@ -219,6 +220,29 @@ elif [ -f releases/SkynetRedBlack-wallpaper.tar.gz ]; then
 else
   echo "ERROR: wallpaper not found" >&2; exit 1
 fi
+
+# sound theme (v1.0.54: Cyberdyne System Sounds, 42 Ogg Vorbis effects)
+mkdir -p "$HOME/.local/share/sounds/Cyberdyne-System-Sounds"
+if [ -d sounds/Cyberdyne-System-Sounds ]; then
+  cp -a sounds/Cyberdyne-System-Sounds/. "$HOME/.local/share/sounds/Cyberdyne-System-Sounds/"
+elif [ -f releases/SkynetRedBlack-sounds.tar.gz ]; then
+  tar -xzf releases/SkynetRedBlack-sounds.tar.gz -C "$HOME/.local/share/sounds/"
+fi
+# select it as the system sound theme
+python3 - << 'PYEOF'
+import pathlib
+p = pathlib.Path.home() / ".config/kdeglobals"
+p.parent.mkdir(parents=True, exist_ok=True)
+t = p.read_text() if p.exists() else ""
+if "[Sounds]" in t:
+    import re
+    t = re.sub(r"(\[Sounds\][^\[]*?)Theme=\S+", r"\1Theme=Cyberdyne-System-Sounds", t, count=1)
+    if "Theme=Cyberdyne-System-Sounds" not in t:
+        t = t.replace("[Sounds]", "[Sounds]\nTheme=Cyberdyne-System-Sounds", 1)
+else:
+    t = t.rstrip() + "\n\n[Sounds]\nTheme=Cyberdyne-System-Sounds\n"
+p.write_text(t)
+PYEOF
 
 # fastfetch greeting (v1.0.45: guarded — the old unconditional `cp`
 # aborted tarball-only installs under `set -e` when fastfetch/ was absent)
