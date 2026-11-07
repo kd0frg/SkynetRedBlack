@@ -7,3 +7,6 @@ icons/
 cursors/
 *.bak
 __pycache__/
+
+# stray image generations (source art lives in wallpaper/)
+Gemini_Generated_Image_*.jpeg
