@@ -4,8 +4,6 @@ A red-on-black Cyberdyne / Skynet themed **global theme for KDE Plasma 6** —
 colour scheme, redscale icon theme, Papirus-Folders, Konsole profile,
 wallpaper, and a triforce fastfetch greeting, all in one package.
 
-![preview](look-and-feel/com.skynetredblack/contents/previews/preview.png)
-
 ## Screenshots
 
 ![Desktop](docs/screenshot-desktop.png)
