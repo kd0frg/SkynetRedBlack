@@ -8,6 +8,8 @@ wallpaper, and a triforce fastfetch greeting, all in one package.
 
 ![Desktop](docs/screenshot-desktop.png)
 
+![Login screen](wallpaper/login.jpg)
+
 ## What's inside
 
 | Component | Source in this repo | Installs to |
