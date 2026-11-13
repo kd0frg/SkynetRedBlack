@@ -39,6 +39,29 @@ if [ "${1:-}" = "--pack" ]; then
   exit 0
 fi
 
+# --cyberdyne-enable / --cyberdyne-disable: toggle the auto-scanner
+# (cyberdyne-retint.timer + cyberdyne-retint.path) without running the
+# installer. The scanner runs cyberdyne-retint automatically when new
+# apps appear or on a weekly schedule.
+if [ "${1:-}" = "--cyberdyne-enable" ]; then
+  mkdir -p "$HOME/.config/systemd/user"
+  cp systemd/cyberdyne-retint.service systemd/cyberdyne-retint.timer systemd/cyberdyne-retint.path "$HOME/.config/systemd/user/"
+  systemctl --user daemon-reload
+  systemctl --user enable --now cyberdyne-retint.timer cyberdyne-retint.path
+  echo "auto-scanner enabled: .path watcher (instant, on app install) + weekly timer safety net"
+  exit 0
+fi
+
+if [ "${1:-}" = "--cyberdyne-disable" ]; then
+  systemctl --user disable --now cyberdyne-retint.timer cyberdyne-retint.path 2>/dev/null || true
+  rm -f "$HOME/.config/systemd/user/cyberdyne-retint.service" \
+        "$HOME/.config/systemd/user/cyberdyne-retint.timer" \
+        "$HOME/.config/systemd/user/cyberdyne-retint.path"
+  systemctl --user daemon-reload 2>/dev/null || true
+  echo "auto-scanner disabled: timer + path watcher stopped and removed"
+  exit 0
+fi
+
 # --- v1.0.53: ask FIRST whether to tint icons at all ---
 # Default is Y. Answers are case-insensitive: Y/yes/Enter = yes,
 # N/no = skip icon tinting entirely (no icon theme copy, no tint
