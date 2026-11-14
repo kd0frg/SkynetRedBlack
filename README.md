@@ -214,6 +214,7 @@ installed to `~/.local/bin` by `install.sh`:
 | `cyberdyne-retint` | Tint new/changed app icons (and every other icon context) red — the **full pipeline**: titlebar minis, Breeze widgets, tray, preferences, copy icons, folder index, DaVinci, system-wide scan. Restarts the Plasma shell only if icons actually changed. |
 | `cyberdyne-detint` | **Reverse of retint**: removes the red tint from every icon (see below). |
 | `cyberdyne-auto` | Turn the auto scanner and/or the shell restart on and off (see below). |
+| `cyberdyne-off` | Turn the auto scanner **and** the shell restart fully OFF in one command — no detint, your red icons stay (see below). |
 
 ### Retint — how to use
 
@@ -306,6 +307,29 @@ The setting is a plain file,
 read by both retint and detint. There is no date/time scheduling
 built in — enable/disable is the control, and the weekly timer is
 the only clock involved.
+
+### cyberdyne-off — turn the auto scanner + shell restart off at once
+
+If you'd rather not have anything tint or bounce your shell
+automatically, `cyberdyne-off` switches **both** automatic
+behaviours off in a single command, **without detinting** your
+icons:
+
+```bash
+cyberdyne-off            # scanner OFF (timer + path removed) + shell restart disabled
+cyberdyne-off --status   # show the current state
+cyberdyne-off --enable   # restore the scanner + restart
+```
+
+It disables + stops + removes the two systemd user units
+(`cyberdyne-retint.timer` — the weekly/after-boot safety net, and
+`cyberdyne-retint.path` — the app-install inotify watcher) so they
+cannot come back on the next install or on reboot, and writes
+`disabled` to `~/.config/SkynetRedBlack/shell-restart`. Your red
+icons are left exactly as they are — this does **not** detint.
+Re-tint by hand any time with `cyberdyne-retint`. `install.sh
+--cyberdyne-off` performs the identical machine-side change without
+reinstalling the theme.
 
 ## Changelog
 

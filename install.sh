@@ -62,6 +62,28 @@ if [ "${1:-}" = "--cyberdyne-disable" ]; then
   exit 0
 fi
 
+# --cyberdyne-off: turn OFF everything automatic in one shot — the auto
+# scanner (timer + path watcher) AND the Plasma shell restart — without
+# running the installer and without detinting your icons. The scanner
+# units are disabled, stopped, and removed (so they cannot be
+# resurrected on the next install or on reboot), and shell-restart is
+# written as `disabled`. Re-tint by hand anytime with cyberdyne-retint;
+# restore the auto behaviour with install.sh --cyberdyne-enable +
+# cyberdyne-auto shell-restart enable (or cyberdyne-off --enable).
+if [ "${1:-}" = "--cyberdyne-off" ]; then
+  systemctl --user disable --now cyberdyne-retint.timer cyberdyne-retint.path 2>/dev/null || true
+  rm -f "$HOME/.config/systemd/user/cyberdyne-retint.service" \
+        "$HOME/.config/systemd/user/cyberdyne-retint.timer" \
+        "$HOME/.config/systemd/user/cyberdyne-retint.path"
+  systemctl --user daemon-reload 2>/dev/null || true
+  mkdir -p "$HOME/.config/SkynetRedBlack"
+  echo disabled > "$HOME/.config/SkynetRedBlack/shell-restart"
+  echo "cyberdyne-off: scanner OFF (timer + path removed) and shell restart disabled"
+  echo "Red icons untouched (no detint). Re-tint by hand: cyberdyne-retint"
+  echo "Restore auto behaviour: install.sh --cyberdyne-enable  AND  cyberdyne-auto shell-restart enable"
+  exit 0
+fi
+
 # --- v1.0.53: ask FIRST whether to tint icons at all ---
 # Default is Y. Answers are case-insensitive: Y/yes/Enter = yes,
 # N/no = skip icon tinting entirely (no icon theme copy, no tint
@@ -505,7 +527,7 @@ cp scripts/retint-new-icons.py "$HOME/.local/bin/cyberdyne-retint" 2>/dev/null |
 chmod +x "$HOME/.local/bin/cyberdyne-retint"
 for _s in fix-mini-icons.py tint-breeze.py fix-tray-icons.py normalize-preferences.py \
           fix-copy-icon.py fix-folder-index.py fix-davinci-icon.py scan-all-icons.py \
-          detint-remove.py auto-retint.py \
+          detint-remove.py auto-retint.py off.py \
           icon-db.py set-brave-system-titlebar.py redtint.py; do
   # v1.0.45: redtint.py is the shared library the tinters import —
   # install it alongside them or the installed copies lose the fast path.
