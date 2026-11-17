@@ -28,6 +28,10 @@ Global theme, `SkynetRedBlack` colour scheme, redscale icon theme, Konsole profi
 
 Terminal font: **Courier Prime (12px)** — SIL OFL. See `assets/fonts/` and `THIRD-PARTY-NOTICES.md`.
 
+## Support
+
+<a href="https://www.buymeacoffee.com/kd0frg" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
 ## License
 
 GPLv3. Third-party: Courier Prime (Quote Unquote Apps, SIL OFL). See `LICENSE` and `THIRD-PARTY-NOTICES.md`.
