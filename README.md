@@ -14,6 +14,12 @@ Short flags: `-i` install (default), `-p` rebuild tarballs, `-o` cyberdyne-off, 
 
 Tint all icons red? Prompted on first run (`Y` default). Answer `n` to skip.
 
+## Screenshots
+
+![Desktop](docs/screenshot-desktop.png)
+
+![Login screen](wallpaper/login.jpg)
+
 ## What's inside
 
 Global theme, `SkynetRedBlack` colour scheme, redscale icon theme, Konsole profile (Courier Prime 12px), cursor `Breeze_Dark_Red`, wallpaper + login, 42 system sounds, fastfetch triforce logo, fish greeting, retint tools.
