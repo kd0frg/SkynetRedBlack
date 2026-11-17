@@ -115,3 +115,9 @@
 - v1.0.2: Triangle launcher icon — the giant red circle Kickoff button is now the wallpaper Y-junction triforce as a clean SVG (`cyberdyne-triangle`, bright red top diamond + darker bottom sections, black Y gaps), set as the Kickoff icon by install.sh. Hermes/Kate/Keet app icons retinted from muted coral-pink (luminance-soft) to pure bright red, matching the symbolic/system icons. All previous fixes (DaVinci directory shadow, System/Wine bright categories, Tela red folders + inode-directory, bright trash/cachy) retained.
 
 - v1.0.1: Fixed DaVinci Resolve in the start menu (menu *category* `DaVinciResolve.directory` pointed at `/opt/resolve/graphics/DV_Resolve.png`, bypassing the theme — now shadowed to the tinted PNG), plus tinted PNG copies for the hicolor fallback. Fixed System/Wine category icons (Text-monochrome/gradient Breeze icons went dark — now boosted bright red like the other categories), bright-red trash and CachyOS updater icons, Tela red folders including `inode-directory` (Dolphin main pane), and the triforce fastfetch logo matching the wallpaper Y-junction emblem.
+
+## v1.0.59
+- Streamlined CLI flags (-i/-p/-o/-h)
+- Courier Prime 12px font
+- OFL credit + assets/fonts
+- Streamlined README
