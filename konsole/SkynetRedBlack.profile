@@ -2,7 +2,7 @@
 BorderWhenActive=true
 ColorScheme=SkynetRedBlack
 FocusBorderColor=170,0,0
-Font=JetBrains Mono,8,-1,5,400,1,0,0,0,0,0,0,0,0,0,1,Italic,0,0
+Font=Courier Prime,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,0,0,0
 FontHinting=true
 IgnoreWcWidth=true
 TabActivityColor=128,0,0

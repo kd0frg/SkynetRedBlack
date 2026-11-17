@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")"
+# Short CLI flags
+case "${1:-}" in
+  -h|--help) echo "Usage: ./install.sh [-i] [-p] [-o] [-h]"; echo "  -i  install (default)"; echo "  -p  rebuild release tarballs (--pack)"; echo "  -o  cyberdyne-off"; exit 0 ;;
+  -i|--install) shift ;;
+  -p) set -- --pack ;;
+  -o) set -- --cyberdyne-off ;;
+esac
 echo "== SkynetRedBlack installer =="
 
 # --pack: rebuild the release tarballs from this checkout and exit.

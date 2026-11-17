@@ -14,3 +14,8 @@ Full texts: LICENSE (root) and LICENSES/GPL-3.0.txt, LICENSES/LGPL-3.0.txt.
 | JetBrains Mono | JetBrains | SIL OFL | Konsole font reference, not bundled |
 
 No endorsement by any upstream author. Trademarks belong to their owners.
+
+## Courier Prime
+Copyright (c) Quote Unquote Apps.
+Licensed under the SIL Open Font License, Version 1.1.
+https://scripts.sil.org/OFL

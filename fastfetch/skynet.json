@@ -18,7 +18,7 @@
         {"type": "custom", "format": "WM Theme: SkynetRedBlack"},
         {"type": "custom", "format": "Theme: SkynetRedBlack"},
         "icons",
-        {"type": "custom", "format": "Font: JetBrains Mono (10pt) [Qt], JetBrains Mono (10pt) [GTK2/3/4]"},
+        {"type": "custom", "format": "Font: Courier Prime (12px) [Qt], Courier Prime (12px) [GTK2/3/4]"},
         "cursor",
         "terminal",
         "terminalfont",
