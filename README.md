@@ -6,6 +6,12 @@ Think "Terminator / Cyberdyne Systems": black everywhere, red for everything els
 
 Current version: **v1.0.59** · Repo: https://github.com/kd0frg/SkynetRedBlack
 
+[![KDE Store — Global Theme](https://img.shields.io/badge/KDE_Store-Global_Theme_2381294-255?color=d32f2f)](https://store.kde.org/p/2381294)
+![KDE Plasma 6](https://img.shields.io/badge/KDE_Plasma-6-red)
+![License: MIT (code) / GPL--3.0 / LGPL--3.0](https://img.shields.io/badge/License-MIT_%2B_GPL3_%2B_LGPL3-red)
+![42 sounds](https://img.shields.io/badge/Sounds-42-darkred)
+![Releases](https://img.shields.io/badge/Releases-tarballs%20%2B%20SHA256SUMS-red)
+
 ---
 
 ## What this is
@@ -185,7 +191,7 @@ Full history lives in [`CHANGELOG.md`](CHANGELOG.md) — newest version at the t
 
 ## License
 
-Split license, because the package ships tinted derivatives of copyleft artwork:
+Split license, because the package ships tinted derivatives of copyleft artwork. SPDX-style: `MIT AND GPL-3.0 AND LGPL-3.0 AND OFL-1.1` (GitHub shows this as "Other" because it is not a single license):
 
 - **MIT** — the author's own work: `install.sh`, `scripts/*.py`, colour scheme, Konsole profile, look-and-feel defaults, fastfetch/fish fragments, packaging.
 - **GPL-3.0** — Tela and Papirus derived artwork (red folders, Steam), and the `Breeze_Dark_Red` cursor (fbm224 / Erwin-Iosef).
